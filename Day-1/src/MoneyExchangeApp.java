@@ -12,6 +12,11 @@ public class MoneyExchangeApp {
         System.out.printf("%.2f USD = %.2f VND",usdAmount,exchangedMoney );
      /* phím tắt xuống dòng
      shift enter
+<<<<<<< Updated upstream
+=======
+     phím tắt
+abc
+>>>>>>> Stashed changes
 
      * */
     }
