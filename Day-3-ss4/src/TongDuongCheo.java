@@ -9,18 +9,15 @@ public class TongDuongCheo {
         System.out.println("Nhập chiều cao của ma trận: ");
         int n = scanner.nextInt();
 
-        // Khởi tạo ma trận
         double[][] A = new double[n][n];
 
-        // Nhập các phần tử của ma trận
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 System.out.println("Nhập phần tử A[" + i + "][" + j + "]: ");
                 A[i][j] = scanner.nextDouble();
             }
         }
-
-        // Tính tổng các số trên đường chéo chính
+        
         double sumDiagonal = 0;
         for (int i = 0; i < n; i++) {
             sumDiagonal += A[i][i];
