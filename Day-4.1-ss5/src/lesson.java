@@ -1,4 +1,4 @@
-public class Main {
+public class lesson {
     public static void main(String[] args) {
         String str1 = "Rikkei Academy";
         String str3 = "Rikkei";
