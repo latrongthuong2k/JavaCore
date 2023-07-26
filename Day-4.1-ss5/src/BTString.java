@@ -111,6 +111,33 @@ public class BTString {
         }
         return result.toString();
     }
+//
+//    Scanner scanner = new Scanner(System.in);
+//    String str = scanner.nextLine();
+//
+//    char[] uniqueChars = new char[str.length()];
+//    int uniqueCharCount = 0;
+//
+//        for (int i = 0; i < str.length(); i++) {
+//        char c = str.charAt(i);
+//        if (str.indexOf(c) == str.lastIndexOf(c)) {
+//            boolean isDuplicate = false;
+//            for (int j = 0; j < uniqueCharCount; j++) {
+//                if (uniqueChars[j] == c) {
+//                    isDuplicate = true;
+//                    break;
+//                }
+//            }
+//            if (!isDuplicate) {
+//                uniqueChars[uniqueCharCount] = c;
+//                uniqueCharCount++;
+//            }
+//        }
+//    }
+//
+//    // Tạo chuỗi từ các ký tự không trùng lặp
+//    String result = new String(uniqueChars, 0, uniqueCharCount);
+//        System.out.println("Chuỗi sau khi xóa các ký tự trùng lặp: " + result);
 
     // 8. Nối 2 chuỗi và cắt nếu cần
     public static String concatenateStrings(String str1, String str2) {
