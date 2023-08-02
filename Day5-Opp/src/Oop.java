@@ -3,31 +3,31 @@ public class Oop {
     String age;
     String gender;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
+    public Oop() {
+    
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getAge() {
         return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public Oop() {
-
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
