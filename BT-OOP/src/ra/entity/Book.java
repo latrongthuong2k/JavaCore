@@ -186,8 +186,8 @@ public class Book {
         return "Book information:\n" +
                 "Book ID: " + bookId + "\n" +
                 "Book Name: " + bookName + "\n" +
-                "Import Price: " + importPrice + "\n" +
-                "Export Price: " + exportPrice + "\n" +
+                "Import Price: " + String.format("%.1f", importPrice) + "\n" +
+                "Export Price: " + String.format("%.1f", exportPrice) + "\n" +
                 "Author: " + author + "\n" +
                 "Year: " + year + "\n" +
                 "Interest: " + interest + "\n";
