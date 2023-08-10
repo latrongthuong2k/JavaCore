@@ -215,7 +215,7 @@ class StudentManagement {
     }
 
     public void sortByAverageMark() {
-        Collections.sort(students, Comparator.comparingDouble(Student::calAvgMark));
+        students.sort(Comparator.comparingDouble(Student::calAvgMark));
         System.out.println("Danh sách sinh viên sau khi sắp xếp:");
         displayAllStudents();
     }
