@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ss1/BT-1/BT-1.iml" filepath="$PROJECT_DIR$/ss1/BT-1/BT-1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss1/BT-2/BT-2.iml" filepath="$PROJECT_DIR$/ss1/BT-2/BT-2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss6/BT-OOP/BT-OOP.iml" filepath="$PROJECT_DIR$/ss6/BT-OOP/BT-OOP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Day-4-ss5/Day-4-ss5.iml" filepath="$PROJECT_DIR$/Day-4-ss5/Day-4-ss5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss6/Day5-Opp/Day5-Opp.iml" filepath="$PROJECT_DIR$/ss6/Day5-Opp/Day5-Opp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss6/Day6-OOp-2/Day6-OOp-2.iml" filepath="$PROJECT_DIR$/ss6/Day6-OOp-2/Day6-OOp-2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/LMS-BT.iml" filepath="$PROJECT_DIR$/.idea/LMS-BT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss3/ss3.iml" filepath="$PROJECT_DIR$/ss3/ss3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss4/ss4.iml" filepath="$PROJECT_DIR$/ss4/ss4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss5/ss5.iml" filepath="$PROJECT_DIR$/ss5/ss5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss7/ss7.iml" filepath="$PROJECT_DIR$/ss7/ss7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ss8/ss8.iml" filepath="$PROJECT_DIR$/ss8/ss8.iml" />
+    </modules>
+  </component>
+</project>
