@@ -15,6 +15,7 @@ public class ProductManager {
 
     // Chọn danh mục quản lý để thực hiện sửa đổi
     public Category selectCategory(CategoriesManager categoriesManager) {
+
         List<Category> categoryList = categoriesManager.getCategoryList();
         System.out.println("Hiện tại có " + categoryList.size() + " danh mục trong shop");
         for (Category item : categoryList) {
@@ -62,6 +63,7 @@ public class ProductManager {
     //     Hiển thị toàn bộ thông tin sản phẩm
     public void displayProduct(Category selectedCategory) {
         if (selectedCategory != null) {
+            System.out.println("***** Danh sách sản phẩm ở danh mục " + selectedCategory.getCategoryName() + " *****");
             selectedCategory.displayProducts();
         } else
             System.err.println("Danh mục đang chọn bị NUll");

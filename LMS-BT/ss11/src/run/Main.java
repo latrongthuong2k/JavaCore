@@ -52,6 +52,7 @@ public class Main {
                     } while (categoryChoice != 5);
                 }
                 case 2 -> {
+                    // quay về menu nếu không có danh mục nào
                     if (shopManagement.getCategoriesManager().getCategoryList().isEmpty()) {
                         System.err.println("Hiện tại danh sách các danh mục hiện đang trống" +
                                 " cần lựa chọn 1 để vào MENU danh mục để thêm danh mục trước");
@@ -60,7 +61,8 @@ public class Main {
                     int productChoice;
                     do {
                         System.out.println("***************** PRODUCT MANAGEMENT *****************\n" +
-                                "1. Thêm mới sản phẩm (Khi thêm cho phép chọn danh mục sản phẩm mà sản phẩm thuộc về)\n" +
+                                "0. Chọn danh mục chứa sản phẩm\n" +
+                                "1. Thêm mới sản phẩm\n" +
                                 "2. Hiển thị thông tin sản phẩm\n" +
                                 "3. Cập nhật giá sản phẩm theo mã sản phẩm\n" +
                                 "4. Xóa sản phẩm theo mã sản phẩm\n" +
@@ -70,13 +72,20 @@ public class Main {
                                 "8. Tìm kiếm sản phẩm theo tên sản phẩm\n" +
                                 "9. Thoát (Quay lại Shop Management)\n" +
                                 "**** Nhập lựa chọn của bạn ****\n");
+                        // nhập lệnh chọn
                         productChoice = scanner.nextInt();
                         scanner.nextLine();
                         switch (productChoice) {
+                            case 0 -> {
+                                System.out.println("**** Danh sách danh mục ****");
+                                // lựa chọn danh mục
+                                selectedCategory = productManager.selectCategory(shopManagement.getCategoriesManager());
+                            }
                             case 1 -> {
-                                // Thực hiện tìm kiếm ở hàm selectCategory
-                                if (selectedCategory == null)
-                                    selectedCategory = productManager.selectCategory(shopManagement.getCategoriesManager());
+                                if (selectedCategory == null) {
+                                    System.err.println("Bạn chưa chọn danh mục !, nhập lệnh ( 0 ) để chọn danh mục trước.");
+                                    break;
+                                }
                                 // lấy productList từ selected ra
                                 Product product = new Product();
                                 product.inputData(scanner, selectedCategory.getProductList());
@@ -85,6 +94,7 @@ public class Main {
                                 // add vào product vào category
                                 selectedCategory.addProduct(product);
                             }
+                            // các case sau trong phương thức đã có check != null rồi
                             case 2 -> productManager.displayProduct(selectedCategory);
                             case 3 -> productManager.updatePrice(selectedCategory, scanner);
                             case 4 -> productManager.deleteProduct(selectedCategory, scanner);
