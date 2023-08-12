@@ -1,8 +1,4 @@
-package Controller;
-
-import BTTH.ra.Category;
-
-import java.util.List;
+package controller;
 
 public class ShopManagement {
     private final CategoriesManager categoriesManager = new CategoriesManager();

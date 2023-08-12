@@ -1,4 +1,4 @@
-package BTTH.ra;
+package btth;
 
 import java.util.*;
 

@@ -1,7 +1,7 @@
-package Controller;
+package controller;
 
-import BTTH.ra.Category;
-import BTTH.ra.Product;
+import btth.Category;
+import btth.Product;
 
 import java.util.List;
 import java.util.Scanner;

@@ -1,6 +1,6 @@
-package Controller;
+package controller;
 
-import BTTH.ra.Category;
+import btth.Category;
 
 import java.util.ArrayList;
 import java.util.List;

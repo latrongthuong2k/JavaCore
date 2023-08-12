@@ -1,10 +1,10 @@
 package run;
 
-import BTTH.ra.Category;
-import BTTH.ra.Product;
-import Controller.CategoriesManager;
-import Controller.ProductManager;
-import Controller.ShopManagement;
+import btth.Category;
+import btth.Product;
+import controller.CategoriesManager;
+import controller.ProductManager;
+import controller.ShopManagement;
 
 import java.util.List;
 import java.util.Scanner;
