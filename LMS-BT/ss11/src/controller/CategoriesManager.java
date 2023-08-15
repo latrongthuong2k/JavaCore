@@ -81,6 +81,7 @@ public class CategoriesManager {
                 System.err.println("Tên danh mục đã tồn tại, hãy nhập tên khác.");
             } else {
                 item.setCategoryName(newName);
+                System.out.println("Sửa thành công");
                 isExist = false;
             }
         }
@@ -97,6 +98,55 @@ public class CategoriesManager {
                 break;
             }
         }
+    }
+
+    Scanner scanner = new Scanner(System.in);
+
+    // Chọn danh mục quản lý để thực hiện sửa đổi
+    public Category selectCategory(CategoriesManager categoriesManager) {
+
+        List<Category> categoryList = categoriesManager.getCategoryList();
+        System.out.println("Hiện tại có " + categoryList.size() + " danh mục trong shop");
+        for (Category item : categoryList) {
+            System.out.println("Danh mục tên ( " + item.getCategoryName() + " ) có id là ( " + item.getCategoryId() + " )");
+        }
+        System.out.println("Hãy nhập ( Id hoặc tên ) của danh mục mà bạn muốn thêm sản phẩm");
+        String target = scanner.nextLine();
+        int categoryId = -1;
+        boolean isNumeric = true;
+
+        try {
+            categoryId = Integer.parseInt(target);
+        } catch (NumberFormatException e) {
+            isNumeric = false;
+        }
+        // tạo một object sample
+        Category selectedCategory = new Category();
+        if (isNumeric) {
+            // tìm theo ID
+            for (Category item : categoryList) {
+                if (item.getCategoryId() == categoryId) {
+                    selectedCategory = item;
+                    break;
+                }
+            }
+        } else {
+            // Tìm danh mục dựa trên tên
+            for (Category item : categoryList) {
+                if (item.getCategoryName().equals(target)) {
+                    selectedCategory = item;
+                    break;
+                }
+            }
+        }
+        if (selectedCategory != null) {
+            System.out.println("Hiện bạn đang chọn danh mục: " + selectedCategory.getCategoryName() +
+                    ", Với Id là: " + selectedCategory.getCategoryId());
+        } else
+            System.err.println(" Danh mục hiện tại đang bị NULL !");
+
+        // cuối cùng là trả về danh mục đã chọn
+        return selectedCategory;
     }
 
 }

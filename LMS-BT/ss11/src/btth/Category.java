@@ -129,9 +129,9 @@ public class Category implements IShop<Category> {
     }
 
     // removeProduct
-    public void removeProduct(int id) {
+    public void removeProduct(String id) {
         for (Product item : productList) {
-            if (item.getProductId() == id) {
+            if (item.getProductId().equals(id)) {
                 productList.remove(item);
                 System.out.println("Đã xoá sản phẩm: ( " + item.getProductName() + " ), có Id là: " + item.getProductId());
                 break;

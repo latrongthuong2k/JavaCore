@@ -11,55 +11,6 @@ public class ProductManager {
     public ProductManager() {
     }
 
-    Scanner scanner = new Scanner(System.in);
-
-    // Chọn danh mục quản lý để thực hiện sửa đổi
-    public Category selectCategory(CategoriesManager categoriesManager) {
-
-        List<Category> categoryList = categoriesManager.getCategoryList();
-        System.out.println("Hiện tại có " + categoryList.size() + " danh mục trong shop");
-        for (Category item : categoryList) {
-            System.out.println("Danh mục tên ( " + item.getCategoryName() + " ) có id là ( " + item.getCategoryId() + " )");
-        }
-        System.out.println("Hãy nhập ( Id hoặc tên ) của danh mục mà bạn muốn thêm sản phẩm");
-        String target = scanner.nextLine();
-        int categoryId = -1;
-        boolean isNumeric = true;
-
-        try {
-            categoryId = Integer.parseInt(target);
-        } catch (NumberFormatException e) {
-            isNumeric = false;
-        }
-        // tạo một object sample
-        Category selectedCategory = new Category();
-        if (isNumeric) {
-            // tìm theo ID
-            for (Category item : categoryList) {
-                if (item.getCategoryId() == categoryId) {
-                    selectedCategory = item;
-                    break;
-                }
-            }
-        } else {
-            // Tìm danh mục dựa trên tên
-            for (Category item : categoryList) {
-                if (item.getCategoryName().equals(target)) {
-                    selectedCategory = item;
-                    break;
-                }
-            }
-        }
-        if (selectedCategory != null) {
-            System.out.println("Hiện bạn đang chọn danh mục: " + selectedCategory.getCategoryName() +
-                    ", Với Id là: " + selectedCategory.getCategoryId());
-        } else
-            System.err.println(" Danh mục hiện tại đang bị NULL !");
-
-        // cuối cùng là trả về danh mục đã chọn
-        return selectedCategory;
-    }
-
     //     Hiển thị toàn bộ thông tin sản phẩm
     public void displayProduct(Category selectedCategory) {
         if (selectedCategory != null) {
@@ -73,12 +24,12 @@ public class ProductManager {
     public void updatePrice(Category selectedCategory, Scanner scanner) {
         if (selectedCategory != null) {
             System.out.println("Nhập mã sản phẩm cần cập nhật giá");
-            int idProduct = scanner.nextInt();
+            String idProduct = scanner.nextLine();
             scanner.nextLine();
             boolean isFined = true;
 
             for (Product item : selectedCategory.getProductList()) {
-                if (item.getProductId() == idProduct) {
+                if (item.getProductId().equals(idProduct)) {
                     System.out.println("Đã tìm thấy sản phẩm " + item.getProductName() +
                             ", Id " + item.getProductId() +
                             ", ở danh mục có id là: " + item.getCategoryId());
@@ -110,10 +61,10 @@ public class ProductManager {
     public void deleteProduct(Category selectedCategory, Scanner scanner) {
         if (selectedCategory != null) {
             System.out.println("Nhập mã sản phẩm cần xoá");
-            int idProduct = scanner.nextInt();
+            String idProduct = scanner.nextLine();
             scanner.nextLine();
             for (Product item : selectedCategory.getProductList()) {
-                if (item.getProductId() == idProduct) {
+                if (item.getProductId().equals(idProduct)) {
                     System.out.println("Đã tìm thấy sản phẩm " + item.getProductName() +
                             ", Id " + item.getProductId() +
                             ", ở danh mục " + item.getProductId());

@@ -79,7 +79,7 @@ public class Main {
                             case 0 -> {
                                 System.out.println("**** Danh sách danh mục ****");
                                 // lựa chọn danh mục
-                                selectedCategory = productManager.selectCategory(shopManagement.getCategoriesManager());
+                                selectedCategory = categoriesManager.selectCategory(shopManagement.getCategoriesManager());
                             }
                             case 1 -> {
                                 if (selectedCategory == null) {
