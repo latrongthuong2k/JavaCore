@@ -18,7 +18,6 @@ public class Employee {
     private int employeeCount;
     private final List<Certificate> certificates = new ArrayList<>();
 
-
     public int getID() {
         return ID;
     }
@@ -59,7 +58,6 @@ public class Employee {
         this.email = email;
     }
 
-
     public int getEmployeeCount() {
         return employeeCount;
     }
@@ -99,59 +97,59 @@ public class Employee {
             input = scanner.nextLine();
             try {
                 id = Integer.parseInt(input);
+                this.ID = id;
+                break;
             } catch (NumberFormatException e) {
-
-                throw new IdException("Invalid Id, id must be number! ");
+                System.err.println("Invalid input, the input value must be number, Input : " + e.getMessage());
             }
-        } while (id == -1);
-
-
-        this.ID = id;
-        // nhập tên
+        } while (true);
         String name;
-        do {
-            System.out.println("Nhập tên :");
-            name = scanner.nextLine();
-            if (isValidFullName(name)) {
-                throw new FullNameException(" Invalid name !");
-            } else
-                this.fullName = name;
-        }
-        while (isValidFullName(name));
-
-        // nhập ngày sinh
         String date;
-        do {
-            System.out.println("Nhập ngày sinh :");
-            date = scanner.nextLine();
-            if (isValidDay(date)) {
-                throw new BirthDayException("Invalid birth day");
-            } else
-                this.birthDay = date;
-        } while (isValidDay(date));
-
-        // nhập số điện thoại
         String phoneNumber;
-        do {
-            System.out.println("Nhập nhập số điện thoại :");
-            phoneNumber = scanner.nextLine();
-            if (isValidPhoneNumber(phoneNumber)) {
-                throw new PhoneException("Invalid phone number");
-            } else
-                this.phone = phoneNumber;
-        } while (isValidPhoneNumber(phoneNumber));
-
-        // nhập email
         String emailInput;
         do {
-            System.out.println("Nhập email :");
-            emailInput = scanner.nextLine();
-            if (isValidEmail(emailInput)) {
-                throw new EmailException("Invalid email");
-            } else
-                this.email = emailInput;
-        } while (isValidEmail(emailInput));
+            try {
+                // input
+                System.out.println("Nhập tên :");
+                name = scanner.nextLine();
+                if (!isValidFullName(name)) {
+                    throw new FullNameException(" Invalid name !");
+                }
+                // input
+                System.out.println("Nhập ngày sinh :");
+                date = scanner.nextLine();
+                if (!isValidDay(date)) {
+                    throw new BirthDayException("Invalid birth day");
+                }
+                // input
+                System.out.println("Nhập số điện thoại:");
+                phoneNumber = scanner.nextLine();
+                if (!isValidPhoneNumber(phoneNumber)) {
+                    throw new PhoneException("Invalid phone number");
+                }
+                // input
+                System.out.println("Nhập email:");
+                emailInput = scanner.nextLine();
 
+                if (!isValidEmail(emailInput)) {
+                    throw new EmailException("Invalid email");
+                }
+                // nếu không có lỗi nào được throw
+                this.fullName = name;
+                this.phone = phoneNumber;
+                this.email = emailInput;
+                this.birthDay = date;
+                break; // thoát loop
+            } catch (FullNameException e) {
+                System.err.println("Tên nhập không hợp lệ. Vui lòng nhập lại. Error: " + e.getMessage());
+            } catch (BirthDayException e) {
+                System.err.println("Ngày sinh không hợp lệ. Vui lòng nhập lại. Error: " + e.getMessage());
+            } catch (PhoneException e) {
+                System.err.println("Số điện thoại không hợp lệ. Vui lòng nhập lại. Error: " + e.getMessage());
+            } catch (EmailException e) {
+                System.err.println("Email không hợp lệ. Vui lòng nhập lại. Error: " + e.getMessage());
+            }
+        } while (true);
         // nhập certificate
         System.out.println("Nhập certificate :");
         Certificate certificate = new Certificate(scanner, certificates);
@@ -166,9 +164,9 @@ public class Employee {
             Date date = sdf.parse(dateStr);
             Date currentDate = new Date();
             // không phải là tương lai
-            return date.after(currentDate);
+            return !date.after(currentDate);
         } catch (ParseException e) {
-            return true;
+            return false;
         }
     }
 
@@ -198,12 +196,24 @@ public class Employee {
     }
 
     // Validate full name
-    public static boolean isValidFullName(String fullName) {
-        return fullName.trim().isEmpty();
+    public static boolean isValidFullName(String input) throws NumberFormatException {
+        boolean isInValid = true;
+        int number;
+        try {
+            number = Integer.parseInt(input);
+            isInValid = false;
+        } catch (NumberFormatException e) {
+            System.out.println("Ok");
+        }
+        return isInValid;
     }
 
     public void addCertificate(Certificate certificate) {
         certificates.add(certificate);
     }
+
+    /**
+     *
+     */
 
 }

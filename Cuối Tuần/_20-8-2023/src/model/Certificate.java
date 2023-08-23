@@ -73,7 +73,7 @@ public class Certificate {
                     isFinished = true;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Lỗi đầu vào, xin hãy nhập lại !");
+                System.err.println("Lỗi đầu vào, xin hãy nhập lại !");
                 scanner.nextLine();
             } catch (IdException e) {
                 System.out.println(e.getMessage());
@@ -88,10 +88,10 @@ public class Certificate {
         String day;
         do {
             day = scanner.nextLine();
-            if (!Employee.isValidDay(day))
+            if (Employee.isValidDay(day))
                 throw new BirthDayException(" Ngày nhập không đúng định dạng");
             else
                 this.certificatedDate = day;
-        } while (!Employee.isValidDay(day));
+        } while (Employee.isValidDay(day));
     }
 }

@@ -54,9 +54,9 @@ public class Category implements IShop<Category> {
     // nên là không cần truyền thêm từ bên ngoài vào
     @Override
     public void inputData(Scanner scanner, List<Category> categoryList) {
-        // auto generate id
-        int id = 0;
         if (!categoryList.isEmpty()) {
+            int id = 0;
+            // auto generate id
             for (Category item : categoryList) {
                 if (item.getCategoryId() == id) {
                     id++;

@@ -2,7 +2,6 @@ package model;
 
 import model.exceptionCase.*;
 
-import java.util.Date;
 
 public class Fresher extends Employee {
     private String graduationDate;

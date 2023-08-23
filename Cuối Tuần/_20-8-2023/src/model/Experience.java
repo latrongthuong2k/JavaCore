@@ -2,14 +2,13 @@ package model;
 
 import model.exceptionCase.*;
 
-import java.util.Date;
 
 public class Experience extends Employee {
     private int expInYear;
     private String proSkill;
 
     public Experience() throws PhoneException, FullNameException, EmailException, BirthDayException, IdException {
-        
+
     }
 
 

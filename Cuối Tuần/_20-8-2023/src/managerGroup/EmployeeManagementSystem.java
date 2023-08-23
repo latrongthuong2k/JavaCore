@@ -83,6 +83,75 @@ public class EmployeeManagementSystem {
             }
         }
     }
+
+//    public class BirthdayException extends Exception {
+//        public BirthdayException(String message) {
+//            super(message);
+//        }
+//    }
+//
+//    public class EmailException extends Exception {
+//        public EmailException(String message) {
+//            super(message);
+//        }
+//    }
+//
+//    public class PhoneException extends Exception {
+//        public PhoneException(String message) {
+//            super(message);
+//        }
+//    }
+//
+//    public class Validator {
+//        public void validateBirthday(String birthday) throws BirthdayException {
+//            if (!isValidBirthday(birthday)) {
+//                throw new BirthdayException("Invalid ");
+//            }
+//        }
+//
+//        public void validateEmail(String email) throws EmailException {
+//            if (!isValidEmail(email)) {
+//                throw new EmailException("Invalid ");
+//            }
+//        }
+//
+//        public void validatePhone(String phone) throws PhoneException {
+//            if (!isValidPhone(phone)) {
+//                throw new PhoneException("Invalid phone");
+//            }
+//        }
+//
+//        private boolean isValidBirthday(String birthday) {
+//            // logic validate
+//            return true;
+//        }
+//
+//        private boolean isValidEmail(String email) {
+//            // logic validate
+//
+//            return true;
+//        }
+//
+//        private boolean isValidPhone(String phone) {
+//            // logic validate
+//
+//            return true;
+//        }
+//    }
+//
+//    public class Main {
+//        public static void main(String[] args) {
+//            Validator validator = new Validator();
+//
+//            try {
+//                validator.validateBirthday("2000-01-01");
+//                validator.validateEmail("user@example.com");
+//                validator.validatePhone("1234567890");
+//            } catch (BirthdayException | ArithmeticException | EmailException | PhoneException e) {
+//                System.out.println("Error: " + e.getMessage());
+//            }
+//        }
+//    }
 }
 
 
