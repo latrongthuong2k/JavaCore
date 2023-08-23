@@ -45,7 +45,7 @@ public class BookImp {
      * Save data to file txt
      */
     public void saveToFile() {
-            try (PrintWriter writer = new PrintWriter("Books.txt")) {
+            try (PrintWriter writer = new PrintWriter("demo.txt")) {
                 for (Book book : books) {
                     writer.println("Book ID: " + book.getBookId());
                     writer.println("Book Name: " + book.getBookName());
