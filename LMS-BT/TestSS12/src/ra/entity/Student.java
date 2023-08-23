@@ -18,7 +18,6 @@ public class Student implements IEntity<Student> {
     private float avgMark;
 
 
-
     // setter , getter
     public LocalDate getBirthday() {
         return birthday;
@@ -27,6 +26,7 @@ public class Student implements IEntity<Student> {
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
+
     public String getStudentID() {
         return studentID;
     }
@@ -157,7 +157,7 @@ public class Student implements IEntity<Student> {
                     validDate = true;
                 }
             } catch (Exception e) {
-                System.out.println("Ngày không hợp lệ. Vui lòng nhập lại.");
+                System.err.println("Ngày không hợp lệ. Vui lòng nhập lại.");
             }
         }
 
@@ -187,8 +187,19 @@ public class Student implements IEntity<Student> {
 
         scanner.nextLine(); // Tiêu thụ ký tự xuống dòng
         System.out.print("Nhập Giới tính sinh viên (true cho nam, false cho nữ): ");
-        gender = scanner.nextBoolean();
+        String gender;
+        gender = scanner.nextLine().toLowerCase();
+        while (true) {
+            if (gender.equals("true")) {
+                this.gender = true;
+                break;
+            } else if (gender.equals("false")) {
+                this.gender = false;
+                break;
+            }
+        }
     }
+
     @Override
     // Display data method
     public void displayData() {
@@ -199,7 +210,7 @@ public class Student implements IEntity<Student> {
         System.out.println("HTML Mark: " + mark_html);
         System.out.println("CSS Mark: " + mark_css);
         System.out.println("JavaScript Mark: " + mark_javascript);
-        System.out.println("Average Mark: " + avgMark);
+        System.out.println("Average Mark: " + String.format("%.2f",avgMark) );
         System.out.println("Gender: " + (gender ? "Male" : "Female"));
         System.out.println("Student Rank: " + studentRank);
         System.out.println();

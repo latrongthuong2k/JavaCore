@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -61,61 +62,72 @@ public class Main {
         }
 
 
-        int choice;
+        int choice = 0;
         do {
-            System.out.println("*****************************MENU************************");
-            System.out.println("1. Nhập thông tin các sinh viên");
-            System.out.println("2. Tính tuổi các sinh viên");
-            System.out.println("3. Tính điểm trung bình và xếp loại sinh viên");
-            System.out.println("4. Hiển thị tất cả sinh viên đã lưu");
-            System.out.println("5. Sắp xếp sinh viên theo tuổi tăng dần");
-            System.out.println("6. Thống kê sinh viên theo xếp loại sinh viên");
-            System.out.println("7. Cập nhật thông tin sinh viên theo mã sinh viên");
-            System.out.println("8. Tìm kiếm sinh viên theo tên sinh viên");
-            System.out.println("9. Thoát");
-            System.out.print("Nhập lựa chọn: ");
-            choice = scanner.nextInt();
-            scanner.nextLine();
-            switch (choice) {
-                case 1 -> studentManagement.addStudents(scanner);
-                case 2 -> studentManagement.calAgeStudents();
-                case 3 -> studentManagement.calAvgMarkToSetRank();
-                case 4 -> studentManagement.displayAllStudents();
-                case 5 ->
-                    // Sắp xếp danh sách sinh viên theo tuổi tăng dần
-                        studentManagement.sortByAgeLowToHight();
-                case 6 ->
-                    // Thống kê sinh viên theo xếp loại sinh viên
-                        studentManagement.statisticsStudentByRank();
-                case 7 ->
-                    // Cập nhật thông tin sinh viên theo mã sinh viên
-                        studentManagement.updateStudentById(scanner);
+            try {
+                System.out.println("*****************************MENU************************");
+                System.out.println("1. Nhập thông tin các sinh viên");
+                System.out.println("2. Tính tuổi các sinh viên");
+                System.out.println("3. Tính điểm trung bình và xếp loại sinh viên");
+                System.out.println("4. Hiển thị tất cả sinh viên đã lưu");
+                System.out.println("5. Sắp xếp sinh viên theo tuổi tăng dần");
+                System.out.println("6. Thống kê sinh viên theo xếp loại sinh viên");
+                System.out.println("7. Cập nhật thông tin sinh viên theo mã sinh viên");
+                System.out.println("8. Tìm kiếm sinh viên theo tên sinh viên");
+                System.out.println("9. Thoát");
+                System.out.print("Nhập lựa chọn: ");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (choice) {
+                        case 1 -> studentManagement.addStudents(scanner);
+                        case 2 -> studentManagement.calAgeStudents();
+                        case 3 -> studentManagement.calAvgMarkToSetRank();
+                        case 4 -> studentManagement.displayAllStudents();
+                        case 5 ->
+                            // Sắp xếp danh sách sinh viên theo tuổi tăng dần
+                                studentManagement.sortByAgeLowToHight();
+                        case 6 ->
+                            // Thống kê sinh viên theo xếp loại sinh viên
+                                studentManagement.statisticsStudentByRank();
+                        case 7 ->
+                            // Cập nhật thông tin sinh viên theo mã sinh viên
+                                studentManagement.updateStudentById(scanner);
 
-                case 8 -> {
-                    // Tìm kiếm sinh viên theo tên sinh viên
-                    studentManagement.searchStudentByName(scanner);
-                }
-                case 9 -> {
-                    // Thoát
-                    try (PrintWriter writer = new PrintWriter("listStudent.txt")) {
-                        for (Student student : studentList) {
-                            writer.println("StudentID: " + student.getStudentID());
-                            writer.println("Student Name: " + student.getStudentName());
-                            writer.println("Birthday: " + student.getBirthday());
-                            writer.println("Gender: " + student.isGender());
-                            writer.println("Age: " + student.getAge());
-                            writer.println("Mark HTML: " + student.getMark_html());
-                            writer.println("Mark CSS: " + student.getMark_css());
-                            writer.println("Mark JavaScript: " + student.getMark_javascript());
-                            writer.println("Rank: " + student.getAvgMark());
-                            writer.println();
+                        case 8 -> {
+                            // Tìm kiếm sinh viên theo tên sinh viên
+                            studentManagement.searchStudentByName(scanner);
                         }
-                        System.out.println("Đã lưu về listStudent.txt");
-                    } catch (IOException e) {
-                        System.out.println("Error saving to file: " + e.getMessage());
+                        case 9 -> {
+                            // Thoát
+                            try (PrintWriter writer = new PrintWriter("listStudent.txt")) {
+
+                                for (Student student : studentList) {
+                                    writer.println("StudentID: " + student.getStudentID());
+                                    writer.println("Student Name: " + student.getStudentName());
+                                    writer.println("Birthday: " + student.getBirthday());
+                                    writer.println("Gender: " + student.isGender());
+                                    writer.println("Age: " + student.getAge());
+                                    writer.println("Mark HTML: " + student.getMark_html());
+                                    writer.println("Mark CSS: " + student.getMark_css());
+                                    writer.println("Mark JavaScript: " + student.getMark_javascript());
+                                    writer.println("Rank: " + student.getAvgMark());
+                                    writer.println();
+                                }
+                                System.out.println("Đã lưu về listStudent.txt");
+                            } catch (IOException e) {
+                                System.out.println("Error saving to file: " + e.getMessage());
+                            }
+                        }
+                        default -> System.out.println("Lựa chọn không hợp lệ!");
                     }
+                } else {
+                    System.out.println("Lựa chọn không hợp lệ! Vui lòng nhập số.");
+                    scanner.nextLine();
                 }
-                default -> System.out.println("Lựa chọn không hợp lệ!");
+            } catch (InputMismatchException e) {
+                System.out.println("Error: " + e.getMessage());
+                choice = 0;
             }
         } while (choice != 9);
     }

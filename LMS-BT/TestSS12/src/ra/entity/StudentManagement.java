@@ -15,10 +15,11 @@ public class StudentManagement {
 
     public void addStudents(Scanner scanner) {
         System.out.println("Nhập só lượng cần thêm");
-        String text = scanner.nextLine();
+        String text;
         int number;
         while (true) {
             try {
+                text = scanner.nextLine();
                 number = Integer.parseInt(text);
                 break;
             } catch (NumberFormatException e) {
@@ -94,7 +95,7 @@ public class StudentManagement {
                     // update Information
                     System.out.println("***** Tiến hành cập nhật *****");
                     item.inputData(scanner,studentList);
-                    break;
+                    System.out.println(ColorText.GREEN_BRIGHT +"Đã sửa đổi xong"+ ColorText.RESET);
                 } else
                     System.err.println(" Không tìm thấy sinh viên, vui lòng nhập chính xác id SV !");
             }
@@ -117,7 +118,7 @@ public class StudentManagement {
         }
         System.out.println(" -------- Tìm thấy " + count + " SV --------" );
         if (count == 0) {
-            System.out.println("Không tìm thấy sinh viên có tên " + input);
+            System.err.println("Không tìm thấy sinh viên có tên " + input);
         }
     }
 
@@ -126,11 +127,13 @@ public class StudentManagement {
         for (Student std: studentList) {
             std.calAge();
         }
+        System.out.println(ColorText.GREEN_BRIGHT +"Đã tính tuổi xong"+ ColorText.RESET);
     }
     public void calAvgMarkToSetRank()
     {
         for (Student std: studentList) {
             std.calAvgMark_Rank();
         }
+        System.out.println(ColorText.GREEN_BRIGHT +"Đã thực hiện xong"+ ColorText.RESET);
     }
 }
