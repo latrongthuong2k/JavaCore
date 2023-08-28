@@ -4,7 +4,6 @@ import controller.ColorText;
 import model.ICategory;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -61,6 +60,17 @@ public class Category implements ICategory {
      * コンストラクターメソッド : Constructor of category
      */
     public Category() {
+        this.id = 0;
+        this.name = "";
+        this.description = "";
+        this.status = false;
+    }
+
+    public Category(int id, String name, String description, boolean status) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
     }
 
     /**
@@ -73,9 +83,22 @@ public class Category implements ICategory {
     public void inputData(Scanner scanner, List<Category> categoryList) {
         // カテゴリー情報の入力を開始します : Nhập thông tin danh mục
         System.out.println(" <-----------Nhập thông tin danh mục----------->");
-        inputName(scanner, categoryList);
-        inputDescription(scanner);
-        inputStatus(scanner);
+        if (!this.name.isEmpty()) {
+            if (askForUpdateData(scanner, "id")) {
+                inputName(scanner, categoryList);
+            }
+        } else {
+            inputName(scanner, categoryList);
+        }
+        if (!this.description.isEmpty()) {
+            if (askForUpdateData(scanner, "Description")) {
+                inputDescription(scanner);
+            }
+        } else {
+            inputDescription(scanner);
+        }
+        if (askForUpdateData(scanner, "status"))
+            inputStatus(scanner);
     }
 
     /**
@@ -151,6 +174,8 @@ public class Category implements ICategory {
                 break;
             } catch (RuntimeException e) {
                 System.err.println("Lỗi: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Error" + e.getMessage());
             }
         }
         while (true);
@@ -177,16 +202,42 @@ public class Category implements ICategory {
                  * Nếu không có lỗi thì thoát vòng lặp
                  */
                 break;
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 System.err.println("Lỗi: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Error" + e.getMessage());
             }
         }
         while (true);
     }
 
-    /**
-     * --------------------------------------------------------------
-     */
+
+    public boolean askForUpdateData(Scanner scanner, String nameField) {
+        if (nameField.equals("status")) {
+            System.out.println("Hiện tại mặt định là InActive, bạn có muốn chọn lại không");
+            System.out.print("-- Để Thực hiện update status, nhập 'y' hoặc 'yes' để sửa đổi," +
+                    " hoặc nhập bất kỳ để huỷ : ");
+            String input = scanner.nextLine().toLowerCase();
+            if (input.equals("y") || input.equals("yes")) {
+                return true;
+            } else {
+                System.out.println(
+                        ColorText.YELLOW_BRIGHT + "Đã huỷ nhập " + nameField + ColorText.RESET);
+                return false;
+            }
+        } else {
+            System.out.print("-- Để Thực hiện update" + nameField + ", nhập 'y' hoặc 'yes' để cập nhật," +
+                    " hoặc nhập bất kỳ để huỷ : ");
+            String input = scanner.nextLine().toLowerCase();
+            if (input.equals("y") || input.equals("yes")) {
+                return true;
+            } else {
+                System.out.println(
+                        ColorText.YELLOW_BRIGHT + "Đã huỷ cập nhật " + nameField + ColorText.RESET);
+                return false;
+            }
+        }
+    }
 
     /**
      * Phương thức hiển thị danh mục
@@ -194,9 +245,15 @@ public class Category implements ICategory {
     @Override
     public void displayData() {
         // ID、名前、説明、ステータスの情報を表示します
-        System.out.printf("%-10d %-20s %-20s %-20s\n",
-                id, name, description,
-                status ? ColorText.GREEN_BRIGHT + "Active" + ColorText.RESET :
-                        ColorText.YELLOW_BRIGHT + "InActive" + ColorText.RESET);
+        String colorTrue = ColorText.YELLOW_BRIGHT;
+        String colorFalse = ColorText.GREEN_BRIGHT;
+        String selectColor = null;
+        String colorR = ColorText.RESET;
+        if (status)
+            selectColor = colorTrue;
+        else
+            selectColor = colorFalse;
+        System.out.printf("| %-10d | %-20s | %-20s | " + selectColor + "%-20s" + colorR + " |\n",
+                id, name, description, status ? "Active" : "InActive");
     }
 }

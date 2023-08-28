@@ -16,6 +16,37 @@ public class CategoryManager {
     public CategoryManager() {
     }
 
+    private boolean isInputMatching(Category category, String input) {
+        try {
+            int id = Integer.parseInt(input);
+            return category.getId() == id;
+        } catch (NumberFormatException e) {
+            return category.getName().toLowerCase().equals(input);
+        }
+    }
+
+    /**
+     * Phương thức hiển thị toàn bộ các category có trong 1 danh sách của Inventory
+     *
+     * @param categoryList : tham chiếu đến một danh sách category nào đó của Inventory
+     */
+
+    public void displayCategory(List<Category> categoryList) {
+        System.out.println("-- Hiện có tổng: " + categoryList.size() + ", danh mục trong kho --");
+        // HEAD
+        System.out.println(DesignTable.getBorderCategoryTable());
+        System.out.println(DesignTable.getCategoryTable());
+        System.out.println(DesignTable.getBorderCategoryTable());
+        // BODY
+
+        for (Category item : categoryList) {
+            item.displayData();
+        }
+        System.out.println(DesignTable.getBorderCategoryTable());
+        //
+    }
+
+
     /**
      * Phương thức thêm category
      *
@@ -23,20 +54,27 @@ public class CategoryManager {
      * @param categoryList : Danh sách các category của đối tượng Inventory ( Kho )
      */
     public void addCategory(Scanner scanner, List<Category> categoryList) {
-        System.out.print("-- Nhập só lượng cần thêm: ");
+        System.out.print("-- Nhập số lượng cần thêm /  gõ 'exit' để huỷ thêm:");
+        String input = scanner.nextLine().toLowerCase();
         int number;
         while (true) {
             try {
-                /**
-                 * Thực hiện lấy số lượng, nếu parse không ra số thì ném ra lỗi
-                 * và chạy lại vòng lặp mới
-                 * nếu ok thì thoát vòng lặp
-                 */
-                number = Integer.parseInt(scanner.nextLine());
+                if (input.equals("exit")) {
+                    System.out.println(ColorText.YELLOW_BRIGHT + "Đã thoát lệnh thêm" + ColorText.RESET);
+                    return;
+                } else {
+                    number = Integer.parseInt(input);
+                }
                 break;
             } catch (NumberFormatException e) {
-                System.err.println("Lỗi : :( input phải là số. Xin hãy nhập lại số lượng !");
+                System.err.println("Lỗi: input phải là số !");
+            } catch (Exception e) {
+                System.out.println("Error" + e.getMessage());
             }
+        }
+        if (number < 0) {
+            System.err.println("Số nhập không được nhỏ hơn 1");
+            return;
         }
         /**
          * Vòng lặp thêm dựa theo số lượng yêu cầu
@@ -52,21 +90,6 @@ public class CategoryManager {
         }
     }
 
-    /**
-     * Phương thức hiển thị toàn bộ các category có trong 1 danh sách của Inventory
-     *
-     * @param categoryList : tham chiếu đến một danh sách category nào đó của Inventory
-     */
-    public void displayCategory(List<Category> categoryList) {
-        System.out.println("-- Hiện có tổng: " + categoryList.size() + ", danh mục trong kho --");
-        System.out.println("---------------------------------------------------------------");
-        System.out.printf(ColorText.WHITE_BOLD_BRIGHT + "%-10s %-20s %-20s %-20s\n" + ColorText.RESET,
-                "ID", "Tên danh mục", "Mô tả", "Trạng thái");
-        for (Category item : categoryList) {
-            item.displayData();
-        }
-        System.out.println("---------------------------------------------------------------");
-    }
 
     /**
      * Phương thức Update category
@@ -75,73 +98,29 @@ public class CategoryManager {
      * @param categoryList : tham chiếu đến một danh sách category nào đó của Inventory
      */
     public void updateCategory(Scanner scanner, List<Category> categoryList) {
-        if (!categoryList.isEmpty()) {
-            System.out.print("-- Nhập tên hoặc id của category để cập nhật: ");
-            /**
-             * flag
-             */
-            boolean found = false;
-            boolean idFound = false;
-            boolean nameFound = false;
-
-            while (!found) {
-                try {
-                    String input = scanner.nextLine();
-                    int id;
-
-                    try {
-                        /**
-                         * Thử đổi qua số nếu không được thì ném ra ngoại lệ
-                         * Nếu ok thì so sánh với Id ( int ), và thực hiện inputData lại cho đối item
-                         * -> Trong inputData có phương thức Update cụ thể cho đối tượng thay vì tạo mới
-                         */
-                        id = Integer.parseInt(input);
-
-                        for (Category item : categoryList) {
-                            if (item.getId() == id) {
-                                System.out.println(ColorText.GREEN_BRIGHT + "Đã tìm thấy danh mục, " +
-                                        "tiến hành cập nhật" + ColorText.RESET);
-                                item.inputData(scanner, categoryList);
-                                idFound = true;
-                                break;
-                            }
-                        }
-                        if (!idFound) {
-                            System.err.println("Không có category Id : " + input + ", xin vui lòng nhập lại !");
-                        }
-                    } catch (NumberFormatException e) {
-                        /**
-                         * Ở ngoại lệ so sánh tên của các category (String)
-                         */
-                        for (Category item : categoryList) {
-                            if (item.getName().equals(input)) {
-                                System.out.println(ColorText.GREEN_BRIGHT + "Đã tìm thấy danh mục, " +
-                                        "tiến hành cập nhật" + ColorText.RESET);
-                                item.inputData(scanner, categoryList);
-                                nameFound = true;
-                                break;
-                            }
-                        }
-                        if (!nameFound) {
-                            System.err.println("Không có category tên: " + input + ", xin vui lòng nhập lại !");
-                        }
-                    }
-                    /**
-                     * -> Kết thúc update nếu tìm được tên hay id thì sẽ thoát vòng lặp
-                     * -> Nếu không tìm được thì sẽ thông báo ở các else phía trên và chạy
-                     * lại vòng lặp mới
-                     */
-                    if (idFound || nameFound)
-                        found = true;
-                } catch (NullPointerException e) {
-                    System.err.println("Lỗi : " + e.getMessage());
-                }
-            }
-        } else {
+        if (categoryList.isEmpty()) {
             System.err.println("Chưa có danh mục nào để cập nhật !");
+            return;
         }
-    }
+        System.out.print("-- Nhập tên hoặc id của category để cập nhật, " +
+                "hoặc nhập 'exit' để thoát lệnh: ");
+        String input = scanner.nextLine().toLowerCase();
+        if (input.equals("exit")) {
+            System.out.println(ColorText.GREEN_BRIGHT + "Đã thoát lệnh cập nhật" + ColorText.RESET);
+            return;
+        }
 
+        for (Category item : categoryList) {
+            if (isInputMatching(item, input)) {
+                System.out.println(ColorText.GREEN_BRIGHT + "Đã tìm thấy danh mục, " +
+                        "tiến hành cập nhật" + ColorText.RESET);
+                item.inputData(scanner, categoryList);
+                return;
+            }
+        }
+
+        System.err.println("Không có category Id hoặc tên: " + input + ", xin vui lòng nhập lại !");
+    }
 
     /**
      * カテゴリを削除するメソッド
@@ -154,52 +133,36 @@ public class CategoryManager {
         if (!categoryList.isEmpty()) {
 
             // 削除対象のカテゴリのIDまたは名前を入力 : Nhập tên hoặc id để tìm kiếm rồi xoá
-            System.out.print("-- Nhập Id hoặc tên danh mục cần xoá: ");
+            System.out.print("-- Nhập Id hoặc tên danh mục cần xoá, hoặc nhập 'exit' để thoát lệnh': ");
             String input;
-            int id;
-            boolean isIdFound = false;
-            boolean isNameFound = false;
             boolean isFound = false;
 
             // 入力を受け取るループ : vòng lặp tìm kiếm
             while (!isFound) {
-                input = scanner.nextLine();
+                input = scanner.nextLine().toLowerCase();
                 try {
-                    // error test
-                    id = Integer.parseInt(input);
-                    // カテゴリリストをループして対応する名前のカテゴリを削除確認
+                    if (input.equals("exit")) {
+                        System.out.println(ColorText.YELLOW_BRIGHT + "Đã thoát lệnh xoá" + ColorText.RESET);
+                        return;
+                    }
                     for (Category item : categoryList) {
-                        if (item.getId() == id) {
+                        if (isInputMatching(item, input)) {
                             askForDeleteCallBackFunc(item, scanner, categoryList);
-                            isIdFound = true;
-                            break;
+                            isFound = true;
                         }
-                    }
-                    if (!isIdFound) {
-                        System.err.println(" :( Không tìm thấy Id :" + input + ", xin hãy nhập lại !");
-                    }
-
-                } catch (NumberFormatException e) {
-                    // カテゴリリストをループして対応する名前のカテゴリを削除確認
-                    for (Category item : categoryList) {
-                        if (item.getName().toLowerCase().equals(input)) {
-                            askForDeleteCallBackFunc(item, scanner, categoryList);
-                            isNameFound = true;
+                        if (isFound)
                             break;
-                        }
                     }
-                    if (!isNameFound) {
-                        System.err.println(" :( Không tìm thấy tên :" + input + ", xin hãy nhập lại !");
-                    }
+                    if (!isFound)
+                        System.err.println(" :( Không tìm thấy danh mục :" + input + ", xin hãy nhập lại !");
+                } catch (Exception e) {
+                    System.out.println("Error" + e.getMessage());
                 }
-                if (isIdFound || isNameFound)
-                    isFound = true;
             }
-
-
         } else
             System.err.println("Chưa có danh mục nào để xoá ! :( ");
     }
+
 
     /**
      * Phương thức phụ trợ cho phương thức deleteCategory
@@ -209,10 +172,11 @@ public class CategoryManager {
      * @param categoryList : tham chiếu danh sách thực hiện xoá lên
      */
     public void askForDeleteCallBackFunc(Category item, Scanner scanner, List<Category> categoryList) {
+
         System.out.println(ColorText.GREEN_BRIGHT +
                 "Đã tìm thấy danh mục tên: " + item.getName() + ColorText.RESET);
         System.out.print(ColorText.YELLOW_BRIGHT +
-                "Bạn có chắc muốn xoá nhấn ( yes ) để xoá, hoặc ( no ) để thoát: " + ColorText.RESET);
+                "Bạn có chắc muốn xoá nhấn ( yes ) để xoá, hoặc ( no ) để thoát lệnh: " + ColorText.RESET);
         do {
             String command = scanner.nextLine().toLowerCase();
 
@@ -238,67 +202,92 @@ public class CategoryManager {
      * @return : 選択されたカテゴリのインスタンス : Khi kết thúc trả về một Category
      */
     public Category selectCategory(List<Category> categoryList, Scanner scanner) {
+        if (categoryList.isEmpty()) {
+            System.err.println("Chưa có danh mục nào để chọn! :(");
+            return null;
+        }
 
-        // 選択されたカテゴリを保持するオブジェクトを生成
-        Category selectedCategory = null;
-
-        if (!categoryList.isEmpty()) {
-            // カテゴリリストを取得
-
-            // ショップ内のカテゴリ数を表示
-            System.out.println("-- Hiện tại có " + categoryList.size() + " danh mục trong shop --");
-            // カテゴリリストをループして表示
-            for (Category item : categoryList) {
-                System.out.println(ColorText.WHITE_BRIGHT + "Danh mục ( " + item.getName() + " ) " +
-                        "có id là ( " + item.getId() + " )" + ColorText.RESET);
-            }
-            // 削除対象のカテゴリのIDまたは名前を入力
-            System.out.print("-- Nhập Id hoặc tên danh mục để vào: ");
-            String input;
-            int id;
-            boolean isIdFound = false;
-            boolean isNameFound = false;
-            boolean isFound = false;
-
-            // 入力を受け取るループ
-            while (!isFound) {
-                input = scanner.nextLine();
-                try {
-                    // error test
-                    id = Integer.parseInt(input);
-                    // カテゴリリストをループして対応する名前のカテゴリを削除確認
-                    for (Category item : categoryList) {
-                        if (item.getId() == id) {
-                            selectedCategory = item;
-                            isIdFound = true;
-                            break;
-                        }
-                    }
-                    if (!isIdFound) {
-                        System.err.println(":( Không tìm thấy Id: " + input + ", xin hãy nhập lại!");
-                    }
-                } catch (NumberFormatException e) {
-                    // カテゴリリストをループして対応する名前のカテゴリを削除確認
-                    for (Category item : categoryList) {
-                        if (item.getName().toLowerCase().equals(input)) {
-                            selectedCategory = item;
-                            isNameFound = true;
-                            break;
-                        }
-                    }
-                    if (!isNameFound) {
-                        System.err.println(":( Không tìm thấy tên: " + input + ", xin hãy nhập lại!");
-                    }
+        System.out.println("-- Hiện tại có " + categoryList.size() + " danh mục trong shop --");
+        for (Category item : categoryList) {
+            System.out.println(ColorText.WHITE_BRIGHT + "Danh mục ( " + item.getName() +
+                    " ) có id là ( " + item.getId() + " )" + ColorText.RESET);
+        }
+        boolean isFound = false;
+        Category foundCategory = null;
+        System.out.println("Nhập Id hoặc tên danh mục để vào, hoặc nhập 'exit' để thoát lệnh :");
+        while (!isFound) {
+            String input = scanner.nextLine().toLowerCase();
+            try {
+                // Khi nhập exit để thoát lệnh
+                if (input.equals("exit")) {
+                    System.out.println(ColorText.GREEN_BRIGHT + "Đã thoát lệnh tìm kiếm" + ColorText.RESET);
+                    return null;
                 }
-                if (isIdFound || isNameFound) {
+                for (Category item : categoryList) {
+                    if (isInputMatching(item, input)) {
+                        // tham gán tham chiếu đến item trong list
+                        foundCategory = item;
+                        isFound = true;
+                    }
+                    if (isFound)
+                        break;
+                }
+                if (!isFound)
+                    System.err.println(":( Không tìm thấy danh mục : " + input + ", xin hãy nhập lại!");
+            } catch (Exception e) {
+                System.out.println("Error" + e.getMessage());
+            }
+            if (foundCategory != null) {
+                // thông báo tìm được xong và check true để thoát khỏi vòng lặp
+                System.out.println(ColorText.GREEN_BOLD_BRIGHT + "Danh mục hiện tại đang chọn là : "
+                        + foundCategory.getName() + ColorText.RESET);
+            }
+        }
+        return foundCategory;
+    }
+
+    private Category findCategoryById(List<Category> categoryList, int id) {
+        return categoryList.stream()
+                .filter(category -> category.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Category findCategoryByName(List<Category> categoryList, String name) {
+        return categoryList.stream()
+                .filter(category -> category.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void findCategoryByNameAndDisplay(Scanner scanner, List<Category> categoryList) {
+        boolean isFound = false;
+        Category selectedCategory;
+        System.out.println("Nhập tên danh mục để tìm kiếm, hoặc nhập 'exit' để thoát lệnh :");
+        while (!isFound) {
+            String input = scanner.nextLine().toLowerCase();
+            try {
+                if (input.equals("exit")) {
+                    System.out.println(ColorText.YELLOW_BRIGHT + "Đã thoát lệnh tìm kiếm" + ColorText.RESET);
+                    return;
+                }
+                selectedCategory = findCategoryByName(categoryList, input);
+                if (selectedCategory == null) {
+                    throw new NullPointerException(":( Không tìm thấy Id: " + input + ", xin hãy nhập lại!");
+                } else {
+                    // kẻ bảng
                     isFound = true;
-                    System.out.println(ColorText.GREEN_BOLD_BRIGHT + "Danh mục hiện tại đang chọn là : "
-                            + selectedCategory.getName() + ColorText.RESET);
+                    System.out.println(DesignTable.getBorderCategoryTable());
+                    System.out.println(DesignTable.getCategoryTable());
+                    System.out.println(DesignTable.getBorderCategoryTable());
+                    selectedCategory.displayData();
+                    System.out.println(DesignTable.getBorderCategoryTable());
                 }
+            } catch (NumberFormatException e) {
+                System.err.println("Lỗi input :" + e.getMessage() + " ?  xin hãy nhập lại");
+            } catch (NullPointerException e) {
+                System.err.println("Lỗi: " + e.getMessage());
             }
-        } else
-            System.err.println("Chưa có danh mục nào để chọn ! :( ");
-        // 選択されたカテゴリを返す , trả về địa chỉ tham chiếu item trong danh sách category
-        return selectedCategory;
+        }
     }
 }

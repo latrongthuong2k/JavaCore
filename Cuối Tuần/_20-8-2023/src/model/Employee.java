@@ -83,8 +83,8 @@ public class Employee {
      */
     public Employee()
             throws PhoneException, FullNameException, EmailException, BirthDayException, IdException {
-        Scanner scanner = new Scanner(System.in);
-        inPutData(scanner);
+//        Scanner scanner = new Scanner(System.in);
+//        inPutData(scanner);
     }
 
     public void inPutData(Scanner scanner)
@@ -110,35 +110,43 @@ public class Employee {
         do {
             try {
                 // input
-                System.out.println("Nhập tên :");
-                name = scanner.nextLine();
-                if (!isValidFullName(name)) {
-                    throw new FullNameException(" Invalid name !");
+                if (!this.fullName.isEmpty()) {
+                    System.out.println("Nhập tên :");
+                    name = scanner.nextLine();
+                    if (!isValidFullName(name)) {
+                        throw new FullNameException(" Invalid name !");
+                    } else
+                        this.fullName = name;
                 }
                 // input
-                System.out.println("Nhập ngày sinh :");
-                date = scanner.nextLine();
-                if (!isValidDay(date)) {
-                    throw new BirthDayException("Invalid birth day");
+                if (!this.birthDay.isEmpty()) {
+                    System.out.println("Nhập ngày sinh :");
+                    date = scanner.nextLine();
+                    if (!isValidDay(date)) {
+                        throw new BirthDayException("Invalid birth day");
+                    } else
+                        this.birthDay = date;
                 }
                 // input
-                System.out.println("Nhập số điện thoại:");
-                phoneNumber = scanner.nextLine();
-                if (!isValidPhoneNumber(phoneNumber)) {
-                    throw new PhoneException("Invalid phone number");
+                if (!this.phone.isEmpty()) {
+                    System.out.println("Nhập số điện thoại:");
+                    phoneNumber = scanner.nextLine();
+                    if (!isValidPhoneNumber(phoneNumber)) {
+                        throw new PhoneException("Invalid phone number");
+                    } else
+                        this.phone = phoneNumber;
                 }
                 // input
-                System.out.println("Nhập email:");
-                emailInput = scanner.nextLine();
+                if (!this.email.isEmpty()) {
+                    System.out.println("Nhập email:");
+                    emailInput = scanner.nextLine();
 
-                if (!isValidEmail(emailInput)) {
-                    throw new EmailException("Invalid email");
+                    if (!isValidEmail(emailInput)) {
+                        throw new EmailException("Invalid email");
+                    } else
+                        this.email = emailInput;
                 }
                 // nếu không có lỗi nào được throw
-                this.fullName = name;
-                this.phone = phoneNumber;
-                this.email = emailInput;
-                this.birthDay = date;
                 break; // thoát loop
             } catch (FullNameException e) {
                 System.err.println("Tên nhập không hợp lệ. Vui lòng nhập lại. Error: " + e.getMessage());
@@ -173,16 +181,14 @@ public class Employee {
     // display
     @Override
     public String toString() {
-        return "Employee{" +
-                "ID=" + ID +
-                ", fullName='" + fullName + '\'' +
-                ", birthDay='" + birthDay + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", employeeType=" + employeeType +
-                ", employeeCount=" + employeeCount +
-                ", certificates=" + certificates +
-                '}';
+        return "ID :" + ID + "-" +
+                "fullName :" + fullName + "\n" +
+                "birthDay :" + birthDay + '\n' +
+                "phone :" + phone + '\n' +
+                "email :" + email + '\n' +
+                "employeeType :" + employeeType +
+                "employeeCount :" + employeeCount +
+                "certificates :" + certificates;
     }
 
     public static boolean isValidPhoneNumber(String phone) {
@@ -192,7 +198,8 @@ public class Employee {
     // Validate email
     public static boolean isValidEmail(String email) {
 
-        return !Pattern.matches("^[A-Za-z0-9+_.-]+@(.+)$", email);
+        return !Pattern.matches("^(?=.{1,64}@)[\\\\p{L}0-9_-]+(\\\\.[\\\\p{L}0-9_-]+)*@" +
+                "[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$", email);
     }
 
     // Validate full name
@@ -212,8 +219,5 @@ public class Employee {
         certificates.add(certificate);
     }
 
-    /**
-     *
-     */
 
 }
